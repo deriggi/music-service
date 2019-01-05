@@ -22,7 +22,7 @@ with many tracks could be an expensive data fetch for bigger fetch with prolific
 
 ## Data Loader
 A data loader makes a simple get request to the json file and converts the data into the domain objects, then loads them into the database
-[Loader.java](src/main/Loader.java)
+[Loader.java](src/main/java/com/Loader.java)
 
 ## Shchema
 Two tables, tracks and artist with artistss having many tracks. There is a foreign key in the Track table called artist_id referencing the 
