@@ -1,7 +1,7 @@
 
 ## Running
-```mvn exec:java```
-Running the application will:
+Running the application with: ```mvn exec:java```
+Doing so will:
 - start a server
 - create an in memory database
 - fetch the data
