@@ -106,6 +106,7 @@ public class TestMusicResource {
         System.out.println(s.getName());
         assertEquals(s.getName(), "Yo Yo Ma");
 
+
     }
 
     @Test
@@ -126,8 +127,12 @@ public class TestMusicResource {
         // can we get it back?
         Track tout = TrackDao.get().getTrack(50);
         System.out.println(tout.getTitle() + " is the title out");
+        Integer sizeBefore = TrackDao.get().getAllTracks().size();
         assertEquals("Stairway to Heaven",tout.getTitle());
-        
+        ArtistDao.get().removeArtist(4);
+        Integer sizeAfter = TrackDao.get().getAllTracks().size();
+        assert(sizeBefore > sizeAfter);
+
     }
 
     

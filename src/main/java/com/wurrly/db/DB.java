@@ -22,7 +22,7 @@ public class DB {
             jdbi.useHandle(h -> {
                 handle.execute("CREATE TABLE artist (id INTEGER PRIMARY KEY, name VARCHAR)");
                 handle.execute(
-                        "CREATE TABLE track (track_id INTEGER PRIMARY KEY, title VARCHAR, artist_id INTEGER, image_path VARCHAR, wurrly_count INTEGER,  foreign key (artist_id) references artist(id) )");
+                        "CREATE TABLE track (track_id INTEGER PRIMARY KEY, title VARCHAR, artist_id INTEGER, image_path VARCHAR, wurrly_count INTEGER,  foreign key (artist_id) references artist(id) on DELETE CASCADE )");
 
                 System.out.println("created tables artist and track");
             });

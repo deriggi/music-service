@@ -1,6 +1,7 @@
 package com.wurrly;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -53,6 +54,16 @@ public class MusicResource {
         build();
     }
 
+    @Path("artist/{id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteArtist(@PathParam("id") Integer id){
+        ArtistDao.get().removeArtist(id);
+        return  Response.status(200).
+        build();
+    }
+
+
     @Path("artist/list")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -81,6 +92,16 @@ public class MusicResource {
         entity(t).
         build();
     }
+
+    @Path("track/{id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteTrack(@PathParam("id") Integer id){
+        TrackDao.get().removeTrack(id);
+        return  Response.status(200).
+        build();
+    }
+
 
     @Path("add/artist")
     @POST
