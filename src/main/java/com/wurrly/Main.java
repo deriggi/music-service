@@ -1,26 +1,9 @@
 package com.wurrly;
 
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.jdbi.v3.core.Handle;
-import org.jdbi.v3.core.Jdbi;
-
-import com.wurrly.dao.ArtistDao;
-import com.wurrly.dao.TrackDao;
-import com.wurrly.db.*;
-import com.wurrly.domain.Artist;
-import com.wurrly.domain.Track;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -29,11 +12,18 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.wurrly.dao.ArtistDao;
+import com.wurrly.dao.TrackDao;
+import com.wurrly.db.DB;
+import com.wurrly.domain.Artist;
+import com.wurrly.domain.Track;
+
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.jdbi.v3.core.Handle;
+import org.jdbi.v3.core.Jdbi;
 
 /**
  * Main class.
@@ -44,7 +34,9 @@ public class Main {
     public static final String BASE_URI = "http://localhost:8080/music/";
 
     /**
-     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this
+     * application.
+     * 
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer() {
@@ -71,44 +63,12 @@ public class Main {
         System.in.read();
 
         
-        server.stop();
+        server.shutdownNow();
 
-        // gatherInput();
 
     }
 
-    public static void gatherInput(){
-        Gson gson  = new Gson();
-        try{
-
-            URL url = new URL("https://s3-us-west-2.amazonaws.com/wurrly-data/test/songs.json");
-            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Content-Type", "application/json");
-            BufferedReader in = new BufferedReader(
-            new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-            in.close();
-
-            JsonParser parser = new JsonParser();
-            JsonObject entireObject = parser.parse(content.toString()).getAsJsonObject();
-            JsonArray allTracks = entireObject.get("items").getAsJsonArray();
-
-            Artist a1 = gson.fromJson(allTracks.get(0).getAsJsonObject().get("artist"), Artist.class);
-            Track t1 = gson.fromJson(allTracks.get(0), Track.class);
-            
-            System.out.println("we found " + t1.toString());
-            System.out.println(content.toString());
-
-        } catch (IOException ioe){
-            ioe.printStackTrace();
-        }
-        
-    }
+    
 
     public static void jdbc(){
         DB db = DB.get();

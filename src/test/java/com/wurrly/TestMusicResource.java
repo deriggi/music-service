@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-public class WurrlyTester {
+public class TestMusicResource {
 
     private HttpServer server;
     private WebTarget target;
@@ -50,7 +50,7 @@ public class WurrlyTester {
 
     @After
     public void tearDown() throws Exception {
-        server.stop();
+        server.shutdownNow();
     }
 
     /**
@@ -110,8 +110,24 @@ public class WurrlyTester {
 
     @Test
     public void testTracks(){
+
+        Artist lz = new Artist();
+        lz.setId(4);
+        lz.setName("led");
+
+        Track track = new Track();
+        track.setImagePath("some path");
+        track.setTitle("Stairway to Heaven");
+        track.setTrackId(50);
+        track.setWurrlyCount(2);
+        track.setArtist(lz);
+        TrackDao.get().addTrack(track);
         
-       
+        // can we get it back?
+        Track tout = TrackDao.get().getTrack(50);
+        System.out.println(tout.getTitle() + " is the title out");
+        assertEquals("Stairway to Heaven",tout.getTitle());
+        
     }
 
     
