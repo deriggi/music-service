@@ -7,6 +7,8 @@ Doing so will:
 - fetch the data
 - populate the data
 
+Application startup happens in the Main class here
+[Main.java](src/main/java/com/wurrly/Main.java)
 All endpoints described here in the system generated wadl
 http://localhost:8080/music/application.wadl
 
