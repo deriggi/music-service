@@ -28,7 +28,7 @@ A data loader makes a simple get request to the json file and converts the data 
 
 ## Shchema
 Two tables, tracks and artist with artistss having many tracks. There is a foreign key in the Track table called artist_id referencing the 
-primary key in the Artist
+primary key in the Artist table
 
 ## Technology
 - JDBI for data access layer
