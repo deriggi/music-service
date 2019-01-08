@@ -59,7 +59,8 @@ public class Loader {
                     artistDao.addArtist(a1);
                 }
                 Track trackObj = gson.fromJson(track, Track.class);
-                trackObj.setTrackId(track.getAsJsonObject().get("id").getAsInt());
+                Integer trackId = track.getAsJsonObject().get("id").getAsInt();
+                trackObj.setTrackId(trackId);
                 trackDao.addTrack(trackObj);
             }
 

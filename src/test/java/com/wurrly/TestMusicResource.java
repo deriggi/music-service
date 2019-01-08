@@ -113,8 +113,9 @@ public class TestMusicResource {
     public void testTracks(){
 
         Artist lz = new Artist();
-        lz.setId(4);
+        lz.setId(40);
         lz.setName("led");
+        ArtistDao.get().addArtist(lz);
 
         Track track = new Track();
         track.setImagePath("some path");
@@ -129,7 +130,7 @@ public class TestMusicResource {
         System.out.println(tout.getTitle() + " is the title out");
         Integer sizeBefore = TrackDao.get().getAllTracks().size();
         assertEquals("Stairway to Heaven",tout.getTitle());
-        ArtistDao.get().removeArtist(4);
+        ArtistDao.get().removeArtist(40);
         Integer sizeAfter = TrackDao.get().getAllTracks().size();
         assert(sizeBefore > sizeAfter);
 

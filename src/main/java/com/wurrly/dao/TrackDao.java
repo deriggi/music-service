@@ -1,11 +1,15 @@
 package com.wurrly.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.wurrly.db.*;
 import com.wurrly.domain.Track;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.mapper.reflect.FieldMapper;
+import org.jdbi.v3.core.statement.Query;
 
 public class TrackDao{
     private static TrackDao dao = new TrackDao();
@@ -40,34 +44,55 @@ public class TrackDao{
 
     public Track getTrack(Integer id){
         Handle h = null;
-        List<Track> listy = null;
+        List<Track> listy = new ArrayList<>();
         try{
             h = DB.get().getHandle();
-            listy=  h.createQuery("SELECT track_id, title,image_path, wurrly_count, artist_id  FROM track WHERE track_ID = :id")
-            .bind("id", id)
-            .mapToBean(Track.class)
-            .list();
+            Query q = h.createQuery("SELECT track_id, title,image_path, wurrly_count, artist_id  FROM track WHERE track_ID = :id")
+            .bind("id", id);
+
+            List<Map<String, Object>> list = q.mapToMap().list();
+            for(Map<String,Object> map: list){
+                Track t  = new Track();
+                t.setTrackId((Integer)map.get("track_id"));
+                t.setTitle((String)map.get("title"));
+                t.setImagePath((String)map.get("image_path"));
+                t.setWurrlyCount((Integer)map.get("wurrly_count"));
+                listy.add(t);
+            }
 
         } catch (Exception e){
             e.printStackTrace();
+            listy = new ArrayList<>(0);
+            
         } finally{
             h.close();
         }
+        Track returnTrack = null;
         if(listy != null &&  listy.size()>0){
-            return listy.get(0);
+            returnTrack = listy.get(0);
         }
-        return null;
+        return returnTrack;
     }
 
     public List<Track> getAllTracks(){
         Handle h = null;
-        List<Track> listy = null;
+        List<Track> listy = new ArrayList<>();
         try{
             h = DB.get().getHandle();
-            listy=  h.createQuery("SELECT track_id, title,image_path, wurrly_count, artist_id  FROM track ")
-            
-            .mapToBean(Track.class)
-            .list();
+            // listy=  
+            Query q = h.createQuery("SELECT track_id, title,image_path, wurrly_count, artist_id  FROM track ");
+            List<Map<String, Object>> list = q.mapToMap().list();
+            for(Map<String,Object> map: list){
+                Track t  = new Track();
+                t.setTrackId((Integer)map.get("track_id"));
+                t.setTitle((String)map.get("title"));
+                t.setImagePath((String)map.get("image_path"));
+                t.setWurrlyCount((Integer)map.get("wurrly_count"));
+                listy.add(t);
+            }
+            // .mapTo(Track.class)
+            // .mapToBean(Track.class)
+            // .list();
 
         } catch (Exception e){
             e.printStackTrace();
