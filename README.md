@@ -18,9 +18,9 @@ http://localhost:8080/music/application.wadl
 Runs some tests for tracks and artist operations
 
 ## Domain
-The  [ domain](/src/main/java/com/wurrly/domain/) has two classes, an Artist and a Track (Song). The data model can be retrieved as a one-directional model with
-Tracks having knowledge of their Artist as a bi-directioanal model, in which the Artsts could be implemented however fetching artists 
-with many tracks could be an expensive data fetch for bigger fetch with prolific artsts
+The  [ domain](/src/main/java/com/wurrly/domain/) has two classes, an Artist and a Track (Song). 
+Tracks have knowledge of their Artist but Artists do not have knowledge of their child Track. This is a one-directonal relationship.  
+
 
 ## Data Loader
 The data loader makes a simple get request to the json file and converts the data into the domain objects, then loads them into the database
